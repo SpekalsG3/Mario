@@ -1,0 +1,75 @@
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	height: 100vh;
+}
+
+.scene {
+	overflow: hidden;
+	position: relative;
+	width: 1000px;
+	height: 560px;
+}
+
+.game {
+	position: relative;
+	width: 200%;
+	height: 100%;
+}
+
+.background {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.background__layer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	transition: .2s;
+}
+
+.background__layer[data-index="0"] {
+	background: url(background/layer-0.png) center repeat-x;
+	background-size: auto 100%;
+}
+
+.background__layer[data-index="1"] {
+	background: url(background/layer-1.png) center repeat-x;
+	background-size: auto 100%;
+}
+
+.background__layer[data-index="2"] {
+	background: url(background/layer-2.png) center repeat-x;
+	background-size: auto 100%;
+}
+
+.background__layer[data-index="3"] {
+	background: url(background/layer-3.png) center repeat-x;
+	background-size: auto 100%;
+}
+
+.background__layer[data-index="4"] {
+	background: url(background/layer-4.png) center repeat-x;
+	background-size: auto 100%;
+}
+
+.background__layer[data-index="5"] {
+	background: url(background/layer-5.png) center repeat-x;
+	background-size: auto 100%;
+	z-index: 10;
+}
+
+#character {
+	position: absolute;
+	z-index: 2;
+	bottom: 28px;
+	width: 100px;
+	height: 74px;
+}
