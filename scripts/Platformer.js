@@ -1,9 +1,10 @@
 var layers = document.getElementsByClassName("background__layer");
 var character = document.getElementById("character");
 
-var backPos = 0;           // Background start position
 var speed = 8;             // Speed of moving, attack, background move etc.
 var swrdshte = 24000;      // Time factor of character staying in idle-2
+
+var littleG = 10           // Gravity constant
 
 var keys = {
   left: false,
@@ -33,8 +34,8 @@ Object.defineProperty(condition, "position", {
 });
 
 var hero = {
-  ay: 15,
-  ax: 0,
+  ay: 1.5,
+  ax: 1.5,
   vy: 0,
   vx: 0,
   y: 0,
@@ -195,6 +196,7 @@ document.addEventListener("keydown", function(e) {
     case 37:
       if (keys.left)
         break;
+      hero.vx = 5;
       character.style.transform = "rotateY(180deg)";
       setCondition("run");
       keys.left = true;
@@ -203,6 +205,7 @@ document.addEventListener("keydown", function(e) {
     case 39:
       if (keys.right)
         break;
+      hero.vx = -5;
       character.style.transform = "rotateY(0deg)";
       setCondition("run");
       keys.left = false;
@@ -231,17 +234,19 @@ document.addEventListener("keyup", function(e) {
     case 37:
       setCondition("idle");
       keys.left = false;
+      hero.ax = 1.5;
       break;
     case 39:
       setCondition("idle");
       keys.right = false;
+      hero.ax = 1.5;
       break;
   }
 });
 
 var backMove = setInterval(function() {
   if (keys.jump) {
-    hero.vy -= hero.ay;
+    hero.vy -= hero.ay * littleG;
     hero.y += hero.vy;
 
     if (hero.y > 0) {
@@ -254,18 +259,22 @@ var backMove = setInterval(function() {
   }
 
   if (keys.left) {
-    if (backPos == 0) {
+    if (hero.x > -hero.vx) {
       setCondition("idle");
       return;
     }
-    backPos += speed;
+    hero.vx += hero.ax;
+    hero.ax *= 0.7;
+    hero.x += hero.vx;
     for (var i = 0; i < layers.length; i++) {
-      layers[i].style.left = (parseInt(layers[i].getAttribute("data-index")) + 1) * backPos + "px";
+      layers[i].style.left = (parseInt(layers[i].getAttribute("data-index")) + 1) * hero.x + "px";
     }
   } else if (keys.right) {
-    backPos -= speed;
+    hero.vx -= hero.ax;
+    hero.ax *= 0.7;
+    hero.x += hero.vx;
     for (var i = 0; i < layers.length; i++) {
-      layers[i].style.left = (parseInt(layers[i].getAttribute("data-index")) + 1) * backPos + "px";
+      layers[i].style.left = (parseInt(layers[i].getAttribute("data-index")) + 1) * hero.x + "px";
     }
   }
 }, 1200 / speed);
